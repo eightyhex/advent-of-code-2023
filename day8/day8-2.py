@@ -6,7 +6,7 @@ def find_nearest_z(key,map,direction):
         left_or_right = 0 if direction[loop_counter%len(direction)] == 'L' else 1
         current_value = map[current_value][left_or_right]
         loop_counter += 1
-    return loop_counter
+    map[key].extend([current_value, loop_counter])
     
 def main():
     with open("/Users/yeelee/code/advent-of-code-2023/day8/input.txt", 'r') as file:
@@ -19,10 +19,14 @@ def main():
             L,R = row.split("=")[1].strip().replace('(', "").replace(')', "").split(", ")
             parsed_mapping[key] = [L,R]
 
-        for key, value in parsed_mapping.items():
-            iterations_to_next_z = find_nearest_z(key, parsed_mapping, direction)
-            value.append(iterations_to_next_z)
+        for key in parsed_mapping.keys():
+            find_nearest_z(key, parsed_mapping, direction)
 
+        for key in parsed_mapping:
+            list_of_keys_ends_in_A = []
+            if key[2] == 'A':
+                list_of_keys_ends_in_A.append(key)
+            
 
         print(parsed_mapping.items())
 
